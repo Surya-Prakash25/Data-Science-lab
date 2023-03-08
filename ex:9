@@ -1,0 +1,14 @@
+import pandas as pd
+import numpy as np
+def fn_get_model_myct(df):
+    df_mean = pd.pivot_table(df, values=["MYCT", "MMIN", "MMAX", "CACH", "CHMIN","CHMAX", "PRP"], columns="vendor name", aggfunc = np.mean)
+    df_median = pd.pivot_table(df, values=["MYCT", "MMIN", "MMAX", "CACH", "CHMIN","CHMAX", "PRP"], columns="vendor name", aggfunc = np.mean)
+    df_myct_mean = pd.DataFrame({"vendor name" : list(df_mean.columns),"Mean MYCT":df_mean.values.tolist()[5]})
+    df_melt_models = pd.melt(df, id_vars =["vendor name"], value_vars =["Model Name"])
+    df_melt_myct_mean = pd.melt(df_myct_mean, id_vars =["vendor name"], value_vars=["Mean MYCT"])
+    data_model_myct = pd.concat([df_melt_models, df_melt_myct_mean], ignore_index=True)
+    return data_model_myct
+if __name__ == "__main__":
+    data_frame_ip = pd.read_csv("machine.data", index_col=None, header=None,names=["vendor name", "Model Name", "MYCT", "MMIN", "MMAX", "CACH", "CHMIN","CHMAX", "PRP", "ERP"])
+    data_model_myct = fn_get_model_myct(data_frame_ip)
+    print(data_model_myct)
