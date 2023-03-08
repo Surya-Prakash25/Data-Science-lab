@@ -1,0 +1,25 @@
+# https://www.statsmodels.org/devel/datasets/index.html
+# https://github.com/statsmodels/statsmodels/tree/master/statsmodels/datasets
+# Brief Info on Dataset: sm.datasets.<data_set_name>.NOTE
+# Extract pandas data_frame from Dataset: sm.datasets.<data_set_name>.load_pandas().data
+# Color List: https://matplotlib.org/tutorials/colors/colors.html
+# Loading "World Copper Market 1951-1975 Dataset"
+#print(sm.datasets.copper.NOTE)
+
+
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+
+df = sm.datasets.copper.load_pandas().data
+fig1 = plt.figure()
+ax1 = plt.subplot(2,1,1)
+ax2 = plt.subplot(2,1,2)
+ax1_x = range(1951,1975+1)
+ax1_y = df["COPPERPRICE"].values
+ax1.plot(ax1_x, ax1_y, color='orange', ls='--')
+ax2_x = range(1951,1975+1)
+ax2_y = df["ALUMPRICE"].values
+ax2.plot(ax2_x, ax2_y, color='blue', ls='-.')
+ax1.set(xlabel='Time', ylabel='Copper price', title = "Copper & Aluminum Price")
+ax2.set(xlabel='Time', ylabel='Aluminum price')
